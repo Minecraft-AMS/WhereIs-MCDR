@@ -114,8 +114,9 @@ def where_is_text(target_player: str, pos: Position, dim: Dimension) -> RTextBas
                     return float('inf')
 
                 nearest = min(locations, key=lambda loc: cross_dimension_distance(loc.pos, LegacyDimension(loc.dim)))
-                if nearest.pos.squared_distance_to(pos) <= config.nearby_distance ** 2:
-                    texts.append('~', RText(nearest.name, RColor.gold).h(rtr('hover.marker_detail')).c(
+                if (Position(x=nearest.pos.x, y=nearest.pos.y, z=nearest.pos.z).
+                        squared_distance_to(pos) <= config.nearby_distance ** 2):
+                    texts.append(' ', RText(f'@[{nearest.name}]', RColor.dark_red).h(rtr('hover.marker_detail')).c(
                         RAction.run_command, '{} info {}'.format(marker.constants.PREFIX, nearest.name)
                     ))
         else:
