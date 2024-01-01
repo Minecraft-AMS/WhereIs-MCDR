@@ -109,7 +109,7 @@ def where_is_text(target_player: str, pos: Position, dim: Dimension) -> RTextBas
                         return to_pos.distance_to(pos)
                     elif to_dim.has_opposite():
                         to_oppo_dim, to_oppo_pos = to_dim.get_opposite(to_pos)
-                        if to_oppo_dim == dim:
+                        if to_oppo_dim.get_reg_key() == dim.get_reg_key():
                             return to_oppo_pos.distance_to(pos)
                     return float('inf')
 
