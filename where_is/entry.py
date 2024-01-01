@@ -99,7 +99,7 @@ def where_is_text(target_player: str, pos: Position, dim: Dimension) -> RTextBas
 
     if config.display_waypoints.location_marker:
         if psi.get_plugin_metadata('location_marker') is not None:
-            marker = psi.get_instance('location_marker')
+            marker = psi.get_plugin_instance('location_marker')
             locations = marker.storage.get_locations()
             if len(locations) > 0:
                 # Look for the nearest location marker
