@@ -19,6 +19,9 @@ class Position:
         ret.z = ret.z * 8
         return ret
 
+    def squared_distance_to(self, to_pos: 'Position'):
+        return (self.x - to_pos.x) ** 2 + (self.y - to_pos.y) ** 2 + (self.z - to_pos.z) ** 2
+
     def copy(self):
         return copy.copy(self)
 

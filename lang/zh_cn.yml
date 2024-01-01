@@ -6,8 +6,10 @@ where_is:
     invalid_args: "无效的参数"
   warn:
     duplicated_here: "本插件与Here存在功能重复，本插件的Here功能暂停工作"
+    location_marker_not_found: "MCDR未安装Location Marker插件"
   hover:
     tp: ': 点击以传送到'
+    marker_detail: '§4Location Marker§r: 点击以显示详情'
     voxel: "§bVoxelmap§r: 点此以高亮坐标点, 或者Ctrl点击添加路径点"
     xaero: '§6Xaeros Minimap§r: 点击添加路径点'
   default_dim:

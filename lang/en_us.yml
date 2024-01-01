@@ -6,8 +6,10 @@ where_is:
     invalid_args: "Invalid argument"
   warn:
     duplicated_here: "Duplicated function between this plugin and Here, this function will not be triggered while Here exists"
+    location_marker_not_found: "Location Marker plugin not found"
   hover:
     tp: ": Click to teleport to"
+    marker_detail: "§4Location Marker§r: Click for detail"
     voxel: "§bVoxelmap§r: Click to highlight the location, or Ctrl-Click to add waypoint"
     xaero: '§6Xaeros Minimap§r: Click to add waypoint'
   default_dim:

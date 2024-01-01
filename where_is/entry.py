@@ -97,6 +97,30 @@ def where_is_text(target_player: str, pos: Position, dim: Dimension) -> RTextBas
     texts = RTextList(RText(target_player, RColor.yellow), ' @ ', dim.get_rtext(), ' ',
                       coordinate_text(x, y, z, dim))
 
+    if config.display_waypoints.location_marker:
+        if psi.get_plugin_metadata('location_marker') is not None:
+            marker = psi.get_instance('location_marker')
+            locations = marker.storage.get_locations()
+            if len(locations) > 0:
+                # Look for the nearest location marker
+                def cross_dimension_distance(to_pos: 'Position', to_dim: Dimension):
+                    to_pos = Position(to_pos.x, to_pos.y, to_pos.z)
+                    if dim == to_dim:
+                        return to_pos.squared_distance_to(pos)
+                    elif to_dim.has_opposite():
+                        to_oppo_dim, to_oppo_pos = to_dim.get_opposite(to_pos)
+                        if to_oppo_dim == dim:
+                            return to_oppo_pos.squared_distance_to(pos)
+                    return float('inf')
+
+                nearest = min(locations, key=lambda loc: cross_dimension_distance(loc.pos, LegacyDimension(loc.dim)))
+                if nearest.pos.squared_distance_to(pos) <= config.nearby_distance ** 2:
+                    texts.append('~', RText(nearest.name, RColor.gold).h(rtr('hover.marker_detail')).c(
+                        RAction.run_command, '{} info {}'.format(marker.constants.PREFIX, nearest.name)
+                    ))
+        else:
+            psi.logger.warning(ntr('warn.location_marker_not_found'))
+
     if config.display_waypoints.voxelmap:
         texts.append(' ', RText('[+V]', RColor.aqua).h(rtr('hover.voxel')).c(
             RAction.run_command, '/newWaypoint x:{}, y:{}, z:{}, dim:{}'.format(

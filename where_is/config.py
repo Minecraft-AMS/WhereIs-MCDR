@@ -25,6 +25,7 @@ class PermissionReq(Serializable):
 class DisplayWaypoints(Serializable):
     voxelmap: bool = True
     xaeros_minimap: bool = True
+    location_marker: bool = False
 
 
 class LocationProtection(Serializable):
@@ -90,6 +91,7 @@ class Config(Serializable):
     permission_requirements: PermissionReq = PermissionReq.get_default()
     highlight_time: HighlightTimePreference = HighlightTimePreference.get_default()
     display_waypoints: DisplayWaypoints = DisplayWaypoints.get_default()
+    nearby_distance: int = 300
     query_timeout: int = 3
     click_to_teleport: bool = True
     location_protection: LocationProtection = LocationProtection.get_default()
