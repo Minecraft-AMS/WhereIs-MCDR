@@ -105,20 +105,21 @@ def where_is_text(target_player: str, pos: Position, dim: Dimension) -> RTextBas
                 # Look for the nearest location marker
                 def cross_dimension_distance(to_pos: 'Position', to_dim: Dimension):
                     to_pos = Position(to_pos.x, to_pos.y, to_pos.z)
-                    if dim == to_dim:
-                        return to_pos.squared_distance_to(pos)
+                    if dim.get_reg_key() == to_dim.get_reg_key():
+                        return to_pos.distance_to(pos)
                     elif to_dim.has_opposite():
                         to_oppo_dim, to_oppo_pos = to_dim.get_opposite(to_pos)
                         if to_oppo_dim == dim:
-                            return to_oppo_pos.squared_distance_to(pos)
+                            return to_oppo_pos.distance_to(pos)
                     return float('inf')
 
                 nearest = min(locations, key=lambda loc: cross_dimension_distance(loc.pos, LegacyDimension(loc.dim)))
-                if (Position(x=nearest.pos.x, y=nearest.pos.y, z=nearest.pos.z).
-                        squared_distance_to(pos) <= config.nearby_distance ** 2):
-                    texts.append(' ', RText(f'@[{nearest.name}]', RColor.dark_red).h(rtr('hover.marker_detail')).c(
-                        RAction.run_command, '{} info {}'.format(marker.constants.PREFIX, nearest.name)
-                    ))
+
+                if cross_dimension_distance(nearest.pos, LegacyDimension(nearest.dim)) < config.nearby_distance ** 2:
+                    texts.append(' ',
+                                 RText('[#{}]'.format(nearest.name), RColor.dark_red).h(rtr('hover.marker_detail')).c(
+                                     RAction.run_command, '{} info {}'.format(marker.constants.PREFIX, nearest.name)
+                                 ))
         else:
             psi.logger.warning(ntr('warn.location_marker_not_found'))
 
